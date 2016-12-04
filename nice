@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+</head>
+  
+  <style>
+    * {
+      font-family: 'Open Sans', 'Lato', 'Helvetica', sans-serif;
+    }
+    
+    #temperature {
+      font-weight: 100;
+      font-size: 36pt;
+      line-height: 0pt;
+    }
+    
+    #cityname {
+      text-transform: uppercase;
+      font-size: 10pt;
+      font-weight: 700;
+    }
+  </style>
+  
+  
+<body>
+  <h1>Nice Weather</h1>
+<input type="text" id="city" placeholder="City"/>
+  <input type="submit" id="submit" onclick="getWeather()"/>
+  <p id="cityname"></p>
+    <p id="temperature"></p>
+</body>
+</html>
+
+function getWeather (){
+//  alert('This button works!')
+//  alert($('#header').html())
+  var name = $('#city').val();
+  var url='http://api.openweathermap.org/data/2.5/weather?q=' + name + '&appid=b61449018c26d1c1e698de42d30b0c30'
+  $('#cityname').html(name);
+  $.ajax(url, {
+    success: function(data){
+      var fahrenheit = convertKtoF(data.main.temp).toFixed(0);
+      $('#temperature').html(fahrenheit + ' °F');
+    },
+    error: function(error){
+      console.log(error);
+    }
+  });
+}
+function convertKtoF(kelvin){
+  //i can use kelvin anywehre under here
+  //for example, convertKtoF(100)
+  return 9 / 5 * (kelvin - 273) + 32;
+}
